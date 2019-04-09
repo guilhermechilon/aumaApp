@@ -8,6 +8,13 @@ module.exports = app => {
         })
     }
 
+    const validation = [
+        check('idTypeUser').exists().withMessage('Selecione o tipo de Usuário.'),
+        check('name').exists().withMessage('Nome não pode ser vazio.'),
+        check('email').isEmail().withMessage('Email não válido.'),
+        check('password').isLength({ min: 6 }).withMessage('Mínimo de 6 caracteres.')
+      ]
+
     const save = (req, res) => {
        
         const errors = validationResult(req);
@@ -25,5 +32,5 @@ module.exports = app => {
         })
     }
 
-    return { save }
+    return { validation, save }
 }
