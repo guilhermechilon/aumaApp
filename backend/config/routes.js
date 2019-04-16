@@ -2,6 +2,17 @@ module.exports = app => {
     app.post('/signup', app.api.user.validation, app.api.user.save)
     app.post('/signin', app.api.auth.signin)
 
+    app.route('/user')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.user.get)
+        .post(app.api.user.validation, app.api.user.save)
+        .put(app.api.user.validation, app.api.user.update)
+        .delete(app.api.user.remove)
+
+    app.route('/user/:idUser')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.user.getById)
+
     app.route('/forklift')
         //.all(app.config.passport.authenticate())   
         .get(app.api.forklift.get)
@@ -9,12 +20,20 @@ module.exports = app => {
         .put(app.api.forklift.validation, app.api.forklift.update)
         .delete(app.api.forklift.remove)
 
+    app.route('/forklift/:idForklift')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.forklift.getById)
+
     app.route('/typeCoffe')
         //.all(app.config.passport.authenticate())   
         .get(app.api.typeCoffe.get)
         .post(app.api.typeCoffe.validation, app.api.typeCoffe.save)
         .put(app.api.typeCoffe.validation, app.api.typeCoffe.update)
         .delete(app.api.typeCoffe.remove)
+
+    app.route('/typeCoffe/:idTypeCoffe')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.typeCoffe.getById)
 
     app.route('/street')
         //.all(app.config.passport.authenticate())   
@@ -43,6 +62,10 @@ module.exports = app => {
         .post(app.api.location.validation, app.api.location.save)
         .put(app.api.location.validation, app.api.location.update)
         .delete(app.api.location.remove)
+
+    app.route('/location/:idLocation')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.location.getById)
         
     app.route('/bag')
         //.all(app.config.passport.authenticate())   
@@ -50,5 +73,15 @@ module.exports = app => {
         .post(app.api.bag.validation, app.api.bag.save)
         .put(app.api.bag.validation, app.api.bag.update)
         .delete(app.api.bag.remove)
+
+    app.route('/bag/:idBag')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.bag.getById)
+
+    app.route('/bagTypeCoffe')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.bagTypeCoffe.get)
+        .post(app.api.bagTypeCoffe.validation, app.api.bagTypeCoffe.save)
+        .delete(app.api.bagTypeCoffe.remove)
 
 }

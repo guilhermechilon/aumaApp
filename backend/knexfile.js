@@ -5,7 +5,8 @@ module.exports = {
     connection: {
       database: 'auma',
       user:     'root',
-      password: ''
+      password: '',
+      timezone: 'UTC-3',
     },
     pool: {
       min: 2,

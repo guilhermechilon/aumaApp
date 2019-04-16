@@ -35,33 +35,56 @@ module.exports = app => {
     const get = (req, res) => {
 
         app.db('user')
-            .orderBy('id', 'desc')
+            .innerJoin('typeUser', 'typeUser.id', '=', 'user.idTypeUser')
+            .select('user.id', 'user.idTypeUser', 'user.name', 'user.email', 'typeUser.description')
+            .orderBy('user.id', 'desc')
             .then(user => res.json(user))
             .catch(err => res.status(400).json(err))
     }
 
-    const update = (req, res) => {
+    const getById = (req, res) => {
+
         app.db('user')
-            .where({ id: req.body.id })
-            .update({ description: req.body.description })
-            .then(_ => res.status(204).send())
+            .innerJoin('typeUser', 'typeUser.id', '=', 'user.idTypeUser')
+            .select('user.id', 'user.idTypeUser', 'user.name', 'user.email', 'typeUser.description')
+            .where({ 'user.id': req.params.idUser })
+            .then(bag => res.json(bag))
             .catch(err => res.status(400).json(err))
+    }
+
+    const update = (req, res) => {
+        if(req.body.password == ""){
+            app.db('user')
+                .where({ id: req.body.idUser })
+                .update({ name: req.body.name, email: req.body.email })
+                .then(_ => res.status(204).send())
+                .catch(err => res.status(400).json(err))
+        }else{
+            obterHash(req.body.password, hash => {
+                const password = hash
+                app.db('user')
+                    .where({ id: req.body.idUser })
+                    .update({ name: req.body.name, email: req.body.email, password: password })
+                    .then(_ => res.status(204).send())
+                    .catch(err => res.status(400).json(err))
+            })
+        }
     }
 
     const remove = (req, res) => {
         app.db('user')
-            .where({ id: req.body.id })
+            .where({ id: req.body.idUser })
             .del()
             .then(rowsDeleted => {
                 if (rowsDeleted > 0) {
                     res.status(204).send()
                 } else {
-                    const msg = `Não foi encontrado tipo com id ${req.body.id}.`
+                    const msg = `Não foi encontrado usuário com id ${req.body.idUser}.`
                     res.status(400).send(msg)
                 }
             })
             .catch(err => res.status(400).json(err))
     }
 
-    return { validation, get, save, update, remove }
+    return { validation, get, getById, save, update, remove }
 }

@@ -29,7 +29,7 @@ module.exports = app => {
 
     const update = (req, res) => {
         app.db('street')
-            .where({ id: req.body.id })
+            .where({ id: req.body.idStreet })
             .update({ description: req.body.description })
             .then(_ => res.status(204).send())
             .catch(err => res.status(400).json(err))
@@ -37,13 +37,13 @@ module.exports = app => {
 
     const remove = (req, res) => {
         app.db('street')
-            .where({ id: req.body.id })
+            .where({ id: req.body.idStreet })
             .del()
             .then(rowsDeleted => {
                 if (rowsDeleted > 0) {
                     res.status(204).send()
                 } else {
-                    const msg = `Não foi encontrado rua com id ${req.body.id}.`
+                    const msg = `Não foi encontrado rua com id ${req.body.idStreet}.`
                     res.status(400).send(msg)
                 }
             })

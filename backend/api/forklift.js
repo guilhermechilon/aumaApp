@@ -27,9 +27,18 @@ module.exports = app => {
             .catch(err => res.status(400).json(err))
     }
 
+    const getById = (req, res) => {
+
+        app.db('forklift')
+            .select('forklift.id', 'forklift.description')
+            .where({ id: req.params.idForklift })
+            .then(bag => res.json(bag))
+            .catch(err => res.status(400).json(err))
+    }
+
     const update = (req, res) => {
         app.db('forklift')
-            .where({ id: req.body.id })
+            .where({ id: req.body.idForklift })
             .update({ description: req.body.description })
             .then(_ => res.status(204).send())
             .catch(err => res.status(400).json(err))
@@ -37,18 +46,18 @@ module.exports = app => {
 
     const remove = (req, res) => {
         app.db('forklift')
-            .where({ id: req.body.id })
+            .where({ id: req.body.idForklift })
             .del()
             .then(rowsDeleted => {
                 if (rowsDeleted > 0) {
                     res.status(204).send()
                 } else {
-                    const msg = `Não foi encontrado empilhadeira com id ${req.body.id}.`
+                    const msg = `Não foi encontrado empilhadeira com id ${req.body.idForklift}.`
                     res.status(400).send(msg)
                 }
             })
             .catch(err => res.status(400).json(err))
     }
 
-    return { validation, get, save, update, remove }
+    return { validation, get, getById, save, update, remove }
 }
