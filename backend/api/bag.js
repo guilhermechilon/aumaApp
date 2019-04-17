@@ -19,13 +19,14 @@ module.exports = app => {
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
+
         req.body.entryDate = moment().format('YYYY-MM-DD H:mm:s').replace(/T/, ' ')
         
         app.db('bag')
         .insert({ 
                 entryDate: req.body.entryDate,
                 idLocation: req.body.idLocation, 
-                idUser: req.body.idUser, 
+                idUser: req.user.id, 
                 lot: req.body.lot, 
                 weight: req.body.weight, 
                 producerName: req.body.producerName, 
@@ -49,10 +50,6 @@ module.exports = app => {
             .innerJoin('user', 'bag.idUser', '=', 'user.id')
             .innerJoin('city', 'bag.idCity', '=', 'city.id')
             .innerJoin('location', 'bag.idLocation', '=', 'location.id')
-                .innerJoin('avenue', 'location.idAvenue', '=', 'avenue.id')
-                .innerJoin('floor', 'location.idFloor', '=', 'floor.id')
-                .innerJoin('position', 'location.idPosition', '=', 'position.id')
-                .innerJoin('street', 'location.idStreet', '=', 'street.id')
             .select('bag.entryDate as entryDate', 
                     'bag.outDate as outDate', 
                     'bag.id', 'bag.idLocation', 'bag.idUser', 'bag.lot', 

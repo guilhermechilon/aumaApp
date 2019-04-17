@@ -71,7 +71,7 @@ module.exports = app => {
         //.all(app.config.passport.authenticate())   
         .get(app.api.bag.get)
         .post(app.api.bag.validation, app.api.bag.save)
-        .put(app.api.bag.validation, app.api.bag.update)
+        .put(app.api.bag.update)
         .delete(app.api.bag.remove)
 
     app.route('/bag/:idBag')
@@ -83,5 +83,11 @@ module.exports = app => {
         .get(app.api.bagTypeCoffe.get)
         .post(app.api.bagTypeCoffe.validation, app.api.bagTypeCoffe.save)
         .delete(app.api.bagTypeCoffe.remove)
+    
+    app.route('/solicitation')
+        //.all(app.config.passport.authenticate())   
+        .get(app.api.solicitation.get)
+        .post(app.api.solicitation.validation, app.api.solicitation.save)
+        .put(app.api.solicitation.update)
 
 }

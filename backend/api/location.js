@@ -17,7 +17,10 @@ module.exports = app => {
         }
         
         app.db('location')
-            .insert({ idStreet: req.body.idStreet, idAvenue: req.body.idAvenue, idFloor: req.body.idFloor, idPosition: req.body.idPosition })
+            .insert({ idStreet: req.body.idStreet, 
+                    idAvenue: req.body.idAvenue, 
+                    idFloor: req.body.idFloor, 
+                    idPosition: req.body.idPosition })
             .then(_ => res.status(204).send())
             .catch(err => res.status(400).json(err))
     }
@@ -63,7 +66,10 @@ module.exports = app => {
     const update = (req, res) => {
         app.db('location')
             .where({ 'location.id': req.body.idLocation })
-            .update({ idStreet: req.body.idStreet, idAvenue: req.body.idAvenue, idFloor: req.body.idFloor, idPosition: req.body.idPosition })
+            .update({ idStreet: req.body.idStreet, 
+                    idAvenue: req.body.idAvenue, 
+                    idFloor: req.body.idFloor, 
+                    idPosition: req.body.idPosition })
             .then(_ => res.status(204).send())
             .catch(err => res.status(400).json(err))
     }
